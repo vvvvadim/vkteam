@@ -20,3 +20,5 @@ def setup_logger():
 
 
 logger = setup_logger()
+
+print(DB_FOLDER)

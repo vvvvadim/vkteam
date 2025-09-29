@@ -1,0 +1,28 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: ./app/.
+      dockerfile: Dockerfile
+    env_file:
+      - api/.env
+    command: fastapi run
+    volumes:
+      - db-vkteams:/db
+    depends_on:
+      - postgres
+    networks:
+      - project_network
+    ports:
+      - 8003:8000
+
+volumes:
+  db-vkteams:
+    driver_opts:
+      type: none
+      device: ./db
+      o: bind
+
+networks:
+  project_network:
+    driver: bridge
