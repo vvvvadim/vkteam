@@ -9,8 +9,6 @@ services:
     command: fastapi run
     volumes:
       - db-vkteams:/db
-    depends_on:
-      - postgres
     networks:
       - project_network
     ports:
