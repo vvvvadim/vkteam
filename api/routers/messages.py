@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
-from app.config.schemas import SendMSG,MSG,SendMSGAnswer
-from app.config.config import logger
-from app.func.messages_func import send_msg
+from api.config.schemas import SendMSG,MSG,SendMSGAnswer
+from api.config.config import logger
+from api.func.messages_func import send_msg
 
 
 messages_router = APIRouter(tags=["Отправка сообщений"])

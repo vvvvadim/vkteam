@@ -5,7 +5,7 @@ from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.config.schemas import ErrorMSG
+from api.config.schemas import ErrorMSG
 
 
 class Error_DB(Exception):

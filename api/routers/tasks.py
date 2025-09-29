@@ -1,7 +1,5 @@
-from typing import Dict, List
-
 from fastapi import APIRouter, Depends, status
-from app.config.task import GetEvents
+from api.config.task import GetEvents
 
 tasks_router = APIRouter(tags=["Управление задачами"])
 test_task=GetEvents()

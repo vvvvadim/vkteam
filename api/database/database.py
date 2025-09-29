@@ -5,8 +5,8 @@ from sqlalchemy import Integer, func,ForeignKey, text
 from typing import AsyncGenerator
 from enum import Enum
 from contextlib import asynccontextmanager
-from app.config.config import DB_FOLDER
-from app.config.exceptions import Error_DB
+from api.config.config import DB_FOLDER
+from api.config.exceptions import Error_DB
 
 DATABASE_URL = f"sqlite+aiosqlite:///{DB_FOLDER}/apidb.db"
 # Создаем асинхронный движок для работы с базой данных

@@ -4,17 +4,17 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from starlette.exceptions import HTTPException
 
-from app.config.config import logger
-from app.config.exceptions import (
+from api.config.config import logger
+from api.config.exceptions import (
     Error_DB,
     all_http_exception_handler,
     custom_exception_handler,
     response_validation_exception_handler,
     validation_exception_handler,
 )
-from app.database.database import Base, engine
-from app.routers import events,messages,tasks
-from app.config.task import GetEvents
+from api.database.database import Base, engine
+from api.routers import events,messages,tasks
+from api.config.task import GetEvents
 
 
 @asynccontextmanager

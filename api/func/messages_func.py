@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.database import get_async_session
+from api.database.database import get_async_session
 from fastapi import Depends, HTTPException, status, Query
-from app.config.config import logger
+from api.config.config import logger
 from sqlalchemy import select
-from app.database.database import Event
-from app.config.schemas import SendMSGAnswer,SendMSG
+from api.database.database import Event
+from api.config.schemas import SendMSGAnswer,SendMSG
 import asyncio
-from app.config.config import BOT_TOKEN, BASE_HTTP
+from api.config.config import BOT_TOKEN, BASE_HTTP
 import httpx
 
 

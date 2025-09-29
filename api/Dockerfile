@@ -1,7 +1,5 @@
-FROM python:3.12
-ENV TZ="Europe/Moscow"
-RUN date
-WORKDIR /app
+FROM python:latest
+WORKDIR /api
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .

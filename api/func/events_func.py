@@ -1,11 +1,11 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.database import get_async_session
+from api.database.database import get_async_session
 from fastapi import Depends, HTTPException, status, Query
 from typing import List
-from app.config.config import logger
+from api.config.config import logger
 from sqlalchemy import select,update
-from app.database.database import Event
-from app.config.schemas import EventsSCH,MSG,UpdateEvents
+from api.database.database import Event
+from api.config.schemas import EventsSCH,MSG,UpdateEvents
 
 async def get_events(
         session: AsyncSession = Depends(get_async_session)) -> List[EventsSCH]:

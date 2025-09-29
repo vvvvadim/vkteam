@@ -1,11 +1,11 @@
 services:
-  app:
-    container_name: app
+  api:
+    container_name: api
     build:
-      context: ./app/.
+      context: ./api/.
       dockerfile: Dockerfile
     env_file:
-      - api/.env
+      - api/config/.env
     command: fastapi run
     volumes:
       - db-vkteams:/db

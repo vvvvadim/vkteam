@@ -1,8 +1,8 @@
 import asyncio
 from sqlalchemy import select
-from app.config.config import BOT_TOKEN, BASE_HTTP
-from app.database.database import User, Event, get_db_session
-from app.config.config import logger
+from api.config.config import BOT_TOKEN, BASE_HTTP
+from api.database.database import User, Event, get_db_session
+from api.config.config import logger
 from datetime import datetime
 import httpx
 

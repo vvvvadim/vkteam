@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
-from app.func.events_func import get_events, change_events
-from app.config.schemas import GetEvents,SendMSG, MSG
+from api.func.events_func import get_events, change_events
+from api.config.schemas import GetEvents,SendMSG, MSG
 
 
 events_router = APIRouter(tags=["Работа с событиями"])
