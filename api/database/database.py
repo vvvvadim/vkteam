@@ -97,7 +97,7 @@ class User(Base):
 class Group(Base):
     chatid: Mapped[str] = mapped_column(nullable=False)
     title : Mapped [str]  = mapped_column(nullable=True)
-    type : Mapped[str] = mapped_column(nullable=False)
+    city : Mapped[str] = mapped_column(nullable=False)
     events = relationship(
         "Event", back_populates="group", cascade="all, delete-orphan"
     )

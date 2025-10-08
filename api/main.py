@@ -22,12 +22,12 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("База готова")
-    test_task=GetEvents()
-    await test_task.start()
+    # test_task=GetEvents()
+    # await test_task.start()
     logger.info("Приложение запущено")
     yield
 
-    await test_task.stop()
+    # await test_task.stop()
     await engine.dispose()
     logger.info("Работа приложения завершена")
 

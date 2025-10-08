@@ -5,7 +5,6 @@ from api.config.config import logger
 from sqlalchemy import select
 from api.database.database import Event
 from api.config.schemas import SendMSGAnswer,SendMSG
-import asyncio
 from api.config.config import BOT_TOKEN, BASE_HTTP
 import httpx
 
