@@ -8,18 +8,12 @@ services:
       - api/config/.env
     command: fastapi run
     volumes:
-      - db-vkteams:/db
+      - ./db:/db
     networks:
       - project_network
     ports:
       - 8003:8000
-
-volumes:
-  db-vkteams:
-    driver_opts:
-      type: none
-      device: ./db
-      o: bind
+    user: "1000:1000"
 
 networks:
   project_network:

@@ -133,7 +133,7 @@ class GetEvents:
                                         )
                                         user_full = await self.get_user_id(user_data=user_data)
                                         event_data = Event(
-                                            message_text=i["payload"]["text"],
+                                            message_text=i["payload"]["text"][1:],
                                             message_id=i["payload"]["msgId"],
                                             user_id=user_full.id
                                         )
@@ -158,7 +158,7 @@ class GetEvents:
                                         user_full = await self.get_user_id(user_data=user_data)
 
                                         event_data = Event(
-                                            message_text=i["payload"]["text"],
+                                            message_text=i["payload"]["text"][1:],
                                             message_id=i["payload"]["msgId"],
                                             user_id=user_full.id,
                                             group_id=group_full.id

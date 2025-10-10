@@ -5,7 +5,9 @@ import logging
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 BASE_HTTP = os.getenv("BASE_HTTP")
-DB_FOLDER = os.path.join('/'.join(os.getcwd().split('/')[:-1]), 'db')
+# DB_FOLDER = os.path.join('/'.join(os.getcwd().split('/')[:-1]), 'db')
+DB_FOLDER = "/db"
+
 
 def setup_logger():
     logger = logging.getLogger("VK-Teams")

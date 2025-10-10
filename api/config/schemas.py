@@ -25,7 +25,8 @@ class SendMSGAnswer(BaseModel):
 
 class EventsSCH(BaseModel):
     id: int
-    group_id: str | None
+    group_id: str | None = None
+    city: str | None = None
     user_id: str
     message_text: str
     message_id: str

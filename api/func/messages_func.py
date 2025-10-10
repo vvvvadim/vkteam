@@ -27,12 +27,7 @@ async def send_msg(
             query = select(Event).where(Event.message_id == data.msg_id)
             result = await session.execute(query)
             result = result.unique().scalars().one_or_none()
-            if result is None:
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=f"Указан не корректный ID",
-                )
-            else:
+            if result :
                 result.status_event = "FINISHED"
             await session.commit()
         return response.json()

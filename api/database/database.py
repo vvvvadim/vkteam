@@ -74,6 +74,7 @@ class Event(Base):
     message_text : Mapped[str] = mapped_column(nullable=False)
     message_id: Mapped[str] = mapped_column(nullable=False)
     status_event : Mapped[str] = mapped_column(default=EventStatus.NEW, server_default=text("'NEW'"))
+    answer: Mapped[str] = mapped_column(nullable=True)
 
     user: Mapped["User"] = relationship(
         "User", back_populates="events", lazy="selectin", innerjoin=True
