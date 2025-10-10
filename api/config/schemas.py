@@ -22,6 +22,9 @@ class SendMSGAnswer(BaseModel):
     description : str | None = None
     ok: bool
 
+class EventAnswer(BaseModel):
+    event_id : str
+    answer: str
 
 class EventsSCH(BaseModel):
     id: int

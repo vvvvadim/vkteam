@@ -5,7 +5,7 @@ from typing import List, Dict
 from api.config.config import logger
 from sqlalchemy import select,update
 from api.database.database import Event
-from api.config.schemas import EventsSCH,MSG,UpdateEvents,SendMSG
+from api.config.schemas import EventsSCH,MSG,UpdateEvents,SendMSG, EventAnswer
 from api.func.messages_func import send_msg
 
 async def get_events(event_id : int = None,
@@ -74,11 +74,11 @@ async def change_events(
             detail=f"Ошибка при изменении данных",
         )
 
-async def answer_event(event_id: int,
-                       answer:str,
-                       session: AsyncSession = Depends(get_async_session)):
+async def answer_event(
+        event_answ: EventAnswer = Query(),
+        session: AsyncSession = Depends(get_async_session)) -> MSG:
     query = (select(Event)
-                 .where(Event.id == event_id)
+                 .where(Event.id == event_answ.event_id)
                  .join(Event.user)
                  .join(Event.group, isouter=True)
                  )
@@ -86,19 +86,19 @@ async def answer_event(event_id: int,
     result = result.unique().scalars().one_or_none()
     if result:
         if result.group_id is None:
-            data = SendMSG(text=answer, user_id=result.user.userid)
+            data = SendMSG(text=event_answ.answer, user_id=result.user.userid)
         else:
-            answ='@['+str(result.user.userid) +'] '+answer
+            answ='@['+str(result.user.userid) +'] '+event_answ.answer
             data = SendMSG(text=answ, user_id=result.group.chatid)
         await send_msg(data=data)
         result.status_event = "FINISHED"
-        result.answer = answer
+        result.answer = event_answ.answer
         await session.commit()
         logger.info("Ответ отправлен")
         return {"result": "true"}
 
     else:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Ошибка при изменении данных",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Событие не найдено",
         )

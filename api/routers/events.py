@@ -14,7 +14,6 @@ events_router = APIRouter(tags=["Работа с событиями"])
     description="Получение сообщений для обработки",
 )
 async def get_events_route(events = Depends(get_events)) -> GetEvents:
-# async def get_events_route(events = Depends(get_events)):
     return {"result": "true", "events": events}
 
 @events_router.put(
@@ -30,9 +29,9 @@ async def update_events_route(result = Depends(change_events)) -> MSG:
 @events_router.post(
     "/api/events",
     status_code=status.HTTP_200_OK,
-    # response_model=MSG,
-    name="Изменение статуса полученных событий",
-    description="Изменение статуса полученных событий",
+    response_model=MSG,
+    name="Отправка ответов по событиям",
+    description="Отправка ответов по событиям с изменением статуса",
 )
 async def update_events_route(result = Depends(answer_event)) -> MSG:
     return result

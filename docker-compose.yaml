@@ -1,6 +1,6 @@
 services:
   api:
-    container_name: api
+    container_name: vkteams_api
     build:
       context: ./api/.
       dockerfile: Dockerfile

@@ -11,8 +11,8 @@ messages_router = APIRouter(tags=["Отправка сообщений"])
     "/api/messages",
     status_code=status.HTTP_200_OK,
     response_model=SendMSGAnswer,
-    name="Отправка ответов на сообщения",
-    description="Отправка ответов на сообщения",
+    name="Отправка сообщений ботом",
+    description="Отправка сообщений ботом с возможностью ответа на конкретное сообщение",
 )
 async def post_messages(message = Depends(send_msg)) -> SendMSGAnswer:
     return message
