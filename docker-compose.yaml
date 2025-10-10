@@ -4,6 +4,8 @@ services:
     build:
       context: ./api/.
       dockerfile: Dockerfile
+    environment:
+      - TZ=Europe/Moscow
     env_file:
       - api/config/.env
     command: fastapi run
