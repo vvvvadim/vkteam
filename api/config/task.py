@@ -105,10 +105,19 @@ class GetEvents:
         return city
 
     async def check_str(self, text) -> bool:
-        if text.startswith('*') and text[1:].isdigit() and len(text[1:])<7:
-            return True
+        if text.startswith('*'):
+            if text[1:].isdigit() and len(text) < 8:
+                return True
+            elif text[1:].lower().startswith('yt') or text[1:].lower().startswith('ут'):
+                if text[3:].isdigit and len(text[3:]) == 9:
+                    return True
+                else:
+                    return False
+            else:
+                return False
         else:
             return False
+
 
     async def get_event(self):
         self.task_running = True
