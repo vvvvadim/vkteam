@@ -105,19 +105,15 @@ class GetEvents:
         return city
 
     async def check_str(self, text) -> bool:
-        if text.startswith('*'):
-            if text[1:].isdigit() and len(text) < 8:
+        if text.isdigit() and len(text) < 8:
+            return True
+        elif text.lower().startswith('yt') or text.lower().startswith('ут'):
+            if text[2:].isdigit and len(text[2:]) == 9:
                 return True
-            elif text[1:].lower().startswith('yt') or text[1:].lower().startswith('ут'):
-                if text[3:].isdigit and len(text[3:]) == 9:
-                    return True
-                else:
-                    return False
             else:
                 return False
         else:
             return False
-
 
     async def get_event(self):
         self.task_running = True
@@ -130,60 +126,65 @@ class GetEvents:
                 if response.status_code == 200:
                     if len(json_data["events"]) > 0:
                         for i in json_data["events"]:
-                            if "text" in i["payload"]:
-                                if await self.check_str(text=i["payload"]["text"]):
-                                    if i["payload"]["chat"]["type"] == "private":
-                                        current_counter = i["eventId"]
-                                        logger.info(f"Получено сообщение: {i}")
-                                        user_data = User(
-                                            firstname=i["payload"]["from"]["firstName"],
-                                            lastname=i["payload"]["from"]["lastName"],
-                                            userid=i["payload"]["from"]["userId"],
-                                        )
-                                        user_full = await self.get_user_id(user_data=user_data)
-                                        event_data = Event(
-                                            message_text=i["payload"]["text"][1:],
-                                            message_id=i["payload"]["msgId"],
-                                            user_id=user_full.id
-                                        )
+                            if i["type"] == "newMessage":
+                                if "text" in i["payload"]:
+                                    if await self.check_str(text=i["payload"]["text"]):
+                                        if i["payload"]["chat"]["type"] == "private":
+                                            current_counter = i["eventId"]
+                                            logger.info(f"Получено сообщение: {i}")
+                                            user_data = User(
+                                                firstname=i["payload"]["from"]["firstName"],
+                                                lastname=i["payload"]["from"]["lastName"],
+                                                userid=i["payload"]["from"]["userId"],
+                                            )
+                                            user_full = await self.get_user_id(user_data=user_data)
+                                            event_data = Event(
+                                                message_text=i["payload"]["text"],
+                                                message_id=i["payload"]["msgId"],
+                                                user_id=user_full.id
+                                            )
 
-                                        await self.write_data_to_db(event_data=event_data)
+                                            await self.write_data_to_db(event_data=event_data)
 
-                                    elif i["payload"]["chat"]["type"] == "group":
-                                        current_counter = i["eventId"]
-                                        logger.info(f"Получено сообщение: {i}")
-                                        group_data = Group(
-                                            chatid=i["payload"]["chat"]["chatId"],
-                                            title=i["payload"]["chat"]["title"],
-                                            city=await self.check_city(chatid=i["payload"]["chat"]["title"]),
-                                        )
-                                        user_data = User(
-                                            firstname=i["payload"]["from"]["firstName"],
-                                            lastname=i["payload"]["from"]["lastName"],
-                                            userid=i["payload"]["from"]["userId"],
-                                        )
+                                        elif i["payload"]["chat"]["type"] == "group":
+                                            current_counter = i["eventId"]
+                                            logger.info(f"Получено сообщение: {i}")
+                                            group_data = Group(
+                                                chatid=i["payload"]["chat"]["chatId"],
+                                                title=i["payload"]["chat"]["title"],
+                                                city=await self.check_city(chatid=i["payload"]["chat"]["title"]),
+                                            )
+                                            user_data = User(
+                                                firstname=i["payload"]["from"]["firstName"],
+                                                lastname=i["payload"]["from"]["lastName"],
+                                                userid=i["payload"]["from"]["userId"],
+                                            )
 
-                                        group_full = await self.get_group_id(group_data=group_data)
-                                        user_full = await self.get_user_id(user_data=user_data)
+                                            group_full = await self.get_group_id(group_data=group_data)
+                                            user_full = await self.get_user_id(user_data=user_data)
 
-                                        event_data = Event(
-                                            message_text=i["payload"]["text"][1:],
-                                            message_id=i["payload"]["msgId"],
-                                            user_id=user_full.id,
-                                            group_id=group_full.id
-                                        )
+                                            event_data = Event(
+                                                message_text=i["payload"]["text"],
+                                                message_id=i["payload"]["msgId"],
+                                                user_id=user_full.id,
+                                                group_id=group_full.id
+                                            )
 
-                                        await self.write_data_to_db(event_data=event_data)
+                                            await self.write_data_to_db(event_data=event_data)
+                                        else:
+                                            current_counter = i["eventId"]
+                                            continue
                                     else:
                                         current_counter = i["eventId"]
+                                        await self.send_error_msg(
+                                            message='@[' + i["payload"]["from"][
+                                                "userId"] + ']' + ' ' + 'Не корректный запрос остатка',
+                                            chatid=i["payload"]["chat"]["chatId"],
+                                            message_id=i["payload"]["msgId"],
+                                        )
                                         continue
                                 else:
                                     current_counter = i["eventId"]
-                                    await self.send_error_msg(
-                                        message='@['+i["payload"]["from"]["userId"]+']'+' '+'Не корректный запрос остатка',
-                                        chatid=i["payload"]["chat"]["chatId"],
-                                        message_id=i["payload"]["msgId"],
-                                    )
                                     continue
                             else:
                                 current_counter = i["eventId"]
